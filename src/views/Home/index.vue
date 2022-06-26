@@ -1,7 +1,6 @@
 <template>
   <div>
-    <!-- 一级占位符 -->
-    <router-view></router-view>
+    <h3>我是home界面</h3>
   </div>
 </template>
 
