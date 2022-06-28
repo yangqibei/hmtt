@@ -19,7 +19,9 @@
           },
         ]"
       >
-        <i class="toutiao toutiao-shouji" slot="left-icon"></i>
+        <!-- 新方法，全局注册组件的方式来添加图标 -->
+        <!-- <i class="toutiao toutiao-shouji" slot="left-icon"></i> -->
+        <MyIcon name="shouji" slot="left-icon"></MyIcon>
       </van-field>
       <van-field
         v-model="code"
@@ -83,6 +85,7 @@ export default {
         // res.data.data
         // token有限期2个小时 两种思路 让用户重新登录refresh_token
         this.$store.commit('setUser', res.data.data)
+        this.$router.push({ name: 'my' })
       } catch (error) {
         console.log(error)
       }

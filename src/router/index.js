@@ -12,22 +12,22 @@ const routes = [
     children: [
       {
         path: '/home',
-        name: '首页',
+        name: 'home',
         component: () => import('@/views/Home')
       },
       {
         path: '/video',
-        name: '视频',
+        name: 'video',
         component: () => import('@/views/video')
       },
       {
         path: '/question',
-        name: '问答',
+        name: 'question',
         component: () => import('@/views/question')
       },
       {
         path: '/my',
-        name: '我的',
+        name: 'my',
         component: () => import('@/views/my')
       }
     ]
