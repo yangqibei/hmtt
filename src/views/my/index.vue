@@ -1,40 +1,42 @@
 <template>
   <div>
     <!-- 登陆前，登录后 -->
-    <div class="header header-login">
+    <div class="header header-login" v-if="user && user.token">
       <div class="avatar">
         <div class="left">
           <van-image
             width="1.76rem"
             height="1.76rem"
             round
-            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            :src="UserInfo.photo"
           />
-          <span>黑马头条号</span>
+          <span>{{ UserInfo.name }}</span>
         </div>
         <div class="button">编辑资料</div>
       </div>
       <ul class="list">
         <li>
-          <p>8</p>
+          <p>{{ UserInfo.art_count }}</p>
           <p>头条</p>
         </li>
         <li>
-          <p>66</p>
+          <p>{{ UserInfo.fans_count }}</p>
           <p>关注</p>
         </li>
         <li>
-          <p>68</p>
+          <!-- <p>{{ UserInfo.follow_count }}</p> -->
+          <p>503w</p>
           <p>粉丝</p>
         </li>
         <li>
-          <p>88</p>
+          <!-- <p>{{ UserInfo.like_count }}</p> -->
+          <p>1000W</p>
           <p>获赞</p>
         </li>
       </ul>
     </div>
-    <div class="header header-notlogin">
-      <div class="inner">
+    <div class="header header-notlogin" v-else>
+      <div class="inner" @click="$router.push('/login')">
         <img src="@/assets/mobile.png" alt="" />
         <p>登录 / 注册</p>
       </div>
@@ -58,19 +60,46 @@
       <van-cell title="小智同学" is-link />
     </van-cell-group>
     <!-- 退出登录按钮 -->
-    <van-button block type="default">退出登录</van-button>
+    <van-button block type="default" v-if="user && user.token" @click="logout"
+      >退出登录</van-button
+    >
   </div>
 </template>
 
 <script>
+import { getUserInfo } from '@/api/user'
+import { mapState } from 'vuex'
 export default {
-  created () { },
-  data () {
-    return {
+  name: 'My',
+  async created () {
+    if (this.user && this.user.token) {
+      try {
+        const res = await getUserInfo()
+        console.log('res', res)
+        this.UserInfo = res.data.data
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
-  methods: {},
-  computed: {},
+  data () {
+    return {
+      UserInfo: {}
+    }
+  },
+  methods: {
+    async logout () {
+      try {
+        await this.$dialog.confirm({ message: '确认退出码' })
+        this.$store.commit('setUser', {})
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  },
+  computed: {
+    ...mapState(['user'])
+  },
   watch: {},
   filters: {},
   components: {}
